@@ -1,7 +1,9 @@
 How to start:
-1. `docker compose build`
-2. `docker compose up`
-3. `docker exec -it web python manage.py migrate`
+1. `docker compose up`
+2. `docker exec -it web python manage.py migrate`
+3. open `127.0.0.1`
+
+Creating admin: `docker exec -it web python manage.py createsuperuser --username admin --email admin@example.com`
 
 Available endpoints:
 - `GET` `/api/menu/`
