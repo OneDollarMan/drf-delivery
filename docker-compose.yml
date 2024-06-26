@@ -1,0 +1,36 @@
+services:
+  web:
+    container_name: web
+    build: ./backend
+    command: gunicorn backend.wsgi --bind 0.0.0.0:8000
+    volumes:
+      - ./backend:/backend
+    expose:
+      - "8000"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/static
+    depends_on:
+      - web
+
+  db:
+    image: postgres
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: db
+    volumes:
+      - postgresql_volume:/var/lib/postgresql/data/
+
+volumes:
+  postgresql_volume:
